@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>First scene with Three.j s</title>
+    <style>
+      ca n va s {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "https://unpkg.com/three@0.174.0/build/three.module.min.js";
+
+      let scene = new THREE.Scene();
+      let camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      let renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // Create a yellow sphere with radius 70
+      let geometry = new THREE.SphereGeometry(70);
+      let material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      let sphere = new THREE.Mesh(geometry, material);
+
+      // for the earth
+      let earthGeometry = new THREE.SphereGeometry(6.5);
+      let earthMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+      let earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
+
+      scene.add(camera);
+      scene.add(sphere);
+
+      sphere.add(earthSphere);
+
+      earthSphere.position.x = 150;
+      camera.position.z = 300;
+
+      function render() {
+        sphere.rotation.y += 0.01;
+
+        renderer.render(scene, camera);
+      }
+
+      renderer.setAnimationLoop(render);
+    </script>
+  </body>
+</html>

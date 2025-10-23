@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <title>First scene with Three.j s</title>
+    <style>
+      canva s {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "https://unpkg.com/three@0.174.0/build/three.module.min.js";
+
+      let scene = new THREE.Scene();
+      let camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      let renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      let textureSun = new THREE.TextureLoader().load("textures/sunmap.jpg");
+      textureSun.wrapS = THREE.RepeatWrapping;
+      textureSun.wrapT = THREE.RepeatWrapping;
+
+      // Create a yellow sphere with radius 70
+      let sunGeometry = new THREE.SphereGeometry(70);
+      let sunMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffff00,
+        map: textureSun,
+      });
+      let sunSphere = new THREE.Mesh(sunGeometry, sunMaterial);
+
+      // for the earth
+      let textureEarth = new THREE.TextureLoader().load(
+        "textures/EarthMap_2500x1250.jpg"
+      );
+      textureEarth.wrapS = THREE.RepeatWrapping;
+      textureEarth.wrapT = THREE.RepeatWrapping;
+      let earthGeometry = new THREE.SphereGeometry(6.5);
+      let earthMaterial = new THREE.MeshBasicMaterial({
+        color: 0x0000ff,
+        map: textureEarth,
+      });
+      let earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
+
+      //   for the moon
+      let textureMoon = new THREE.TextureLoader().load(
+        "textures/moonmap1k.jpg"
+      );
+      textureMoon.wrapS = THREE.RepeatWrapping;
+      textureMoon.wrapT = THREE.RepeatWrapping;
+      let moonGeometry = new THREE.SphereGeometry(4.5);
+      let moonMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: textureMoon });
+      let moonSphere = new THREE.Mesh(moonGeometry, moonMaterial);
+
+      let joint1 = new THREE.Object3D();
+
+      scene.add(sunSphere);
+
+      scene.add(joint1);
+
+      scene.add(camera);
+
+      joint1.add(earthSphere);
+
+      //  second joint
+      let joint2 = new THREE.Object3D();
+      joint1.add(joint2);
+
+      joint2.add(moonSphere);
+
+      earthSphere.position.x = 150;
+      joint2.position.x = 150;
+      moonSphere.position.x = 20;
+
+      camera.position.z = 300;
+
+      function render() {
+        joint1.rotation.y += 0.01;
+        joint2.rotation.y += 0.05;
+
+        renderer.render(scene, camera);
+      }
+
+      renderer.setAnimationLoop(render);
+
+      function resize() {
+        console.log("New window size:", window.innerWidth, window.innerHeight);
+      }
+
+      window.onresize = resize;
+    </script>
+  </body>
+</html>
