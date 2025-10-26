@@ -1,2 +1,8 @@
 .venv/
 .ipynb_checkpoints/
+
+__pycache__
+chunks.pkl
+vector_index.faiss
+doc1.pdf
+doc2.pdf
