@@ -62,7 +62,6 @@
       "preconnections": [
       ],
       "postconnections": [
-        { "destination": "viewer", "slot": "viewAll", "value": []},
         { "destination": "animator", "slot": "start", "value":[]}
       ],
       "connections": [
@@ -72,7 +71,7 @@
         { "source": "animator", "signal": "onAnimationFrame", "destination": "viewer", "slot": "render"},
         { "source": "video", "signal": "onReady", "destination": "viewer", "slot": "resetCamera"},
         { "source": "video", "signal": "onImage", "destination": "detector", "slot": "detect"},
-        { "source": "locator", "signal": "onLocatedMarkers", "destination": "viewer", "slot": "setExtrinsics"},
+        { "source": "locator", "signal": "onLocatedMarkers", "destination": "objectTransform", "slot": "setTransform"},
         { "source": "locator", "signal": "onLocatedMarkers", "destination": "markerDisplay", "slot": "setMarkers"}
       ],
       "cleanups": []
